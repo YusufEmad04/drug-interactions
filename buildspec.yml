@@ -20,8 +20,8 @@ phases:
       # build docker image using ecr build commands and env variables
       # print env variable
       - echo $OPENAI_API_KEY
-      - docker build -t dawiny . --build-arg VAR1=$OPENAI_API_KEY
-      - docker tag dawiny:latest 073619244051.dkr.ecr.us-west-1.amazonaws.com/dawiny:latest
-      - docker push 073619244051.dkr.ecr.us-west-1.amazonaws.com/dawiny:latest
+      - docker build -t drug-interactions . --build-arg VAR1=$OPENAI_API_KEY
+      - docker tag drug-interactions:latest 073619244051.dkr.ecr.us-west-1.amazonaws.com/drug-interactions:latest
+      - docker push 073619244051.dkr.ecr.us-west-1.amazonaws.com/drug-interactions:latest
       # update lambda function with new docker image
-      - aws lambda update-function-code --function-name dawiny --image-uri 073619244051.dkr.ecr.us-west-1.amazonaws.com/dawiny:latest
+      # aws lambda update-function-code --function-name dawiny --image-uri 073619244051.dkr.ecr.us-west-1.amazonaws.com/dawiny:latest

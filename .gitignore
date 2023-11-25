@@ -1,0 +1,16 @@
+venv/
+test.py
+.idea/
+__pycache__/
+data.txt
+ddd.py
+.env
+*.txt
+!requirements.txt
+!message.txt
+*.png
+*.pdf
+*ipynb
+server.py
+development.py
+medications.json

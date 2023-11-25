@@ -1,0 +1,27 @@
+version: 0.2
+
+# build a docker image from a github repo on aws codebuild
+# api keys are stores in aws secrets manager
+
+phases:
+  pre_build:
+    commands:
+      - |
+        # Retrieve secret and extract API keys
+        secret_json=$(aws secretsmanager get-secret-value --secret-id agent_builder)
+        OPENAI_API_KEY=$(echo "$secret_json" | jq -r '.SecretString | fromjson | .OPENAI_API_KEY_SOLIMAN')
+        # Set environment variables
+        export OPENAI_API_KEY=$OPENAI_API_KEY
+
+      - aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 073619244051.dkr.ecr.us-west-1.amazonaws.com
+
+  build:
+    commands:
+      # build docker image using ecr build commands and env variables
+      # print env variable
+      - echo $OPENAI_API_KEY
+      - docker build -t dawiny . --build-arg VAR1=$OPENAI_API_KEY
+      - docker tag dawiny:latest 073619244051.dkr.ecr.us-west-1.amazonaws.com/dawiny:latest
+      - docker push 073619244051.dkr.ecr.us-west-1.amazonaws.com/dawiny:latest
+      # update lambda function with new docker image
+      - aws lambda update-function-code --function-name dawiny --image-uri 073619244051.dkr.ecr.us-west-1.amazonaws.com/dawiny:latest

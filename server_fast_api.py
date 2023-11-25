@@ -47,7 +47,7 @@ async def upload_and_process_image(image: UploadFile = File(...)):
         "messages": [
             {
                 "role": "system",
-                "content": "You will take a medicine box image from the user, and you will extract the text and the colors from the image and you will describe the medicine and how to use it.\nYour response should be a json"
+                "content": "You will take a medicine box image from the user, and you will extract the text and the colors from the image and you will describe the medicine and how to use it.\nYour response should be a json.\n RESPOND ONLY WITH JSON WITHOUT ANY OTHER TEXT."
             },
             {
                 "role": "user",

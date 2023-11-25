@@ -43,21 +43,21 @@ async def upload_and_process_image(image: UploadFile = File(...)):
     payload = {
         "model": "gpt-4-vision-preview",
         "messages": [
-            {
-                "role": "system",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": "You will take a medicine box image from the user, and you will extract the text and the colors from the image and you will describe the medicine and how to use it.\nYour response should be a json.\n RESPOND ONLY WITH JSON WITHOUT ANY OTHER TEXT."
-                    }
-                ]
-            },
+            # {
+            #     "role": "system",
+            #     "content": [
+            #         {
+            #             "type": "text",
+            #             "text": "You will take a medicine box image from the user, and you will extract the text and the colors from the image and you will describe the medicine and how to use it.\nYour response should be a json.\n RESPOND ONLY WITH JSON WITHOUT ANY OTHER TEXT."
+            #         }
+            #     ]
+            # },
             {
                 "role": "user",
                 "content": [
                     {
                         "type": "text",
-                        "text": "the image I provided is a picture of a medicine box respond with json with key 'text' text is any text visible inside the image and  key colors is any colors visible in the image' and a key description with any description of the medicine and how to use. like this {'text': 'text here', 'colors': ['red', 'white'], 'description': 'description here'}"
+                        "text": "the image I provided is a picture of a medicine box respond with json with key 'text' text is any text visible inside the image and key colors is any colors visible in the image, and a key description with any description of the medicine and how to use. like this {'text': 'text here', 'colors': ['red', 'white'], 'description': 'description here'}.\nONLY RESPOND WITH JSON WITHOUT ANY OTHER TEXT."
                     },
                     {
                         "type": "image_url",

@@ -24,4 +24,4 @@ phases:
       - docker tag drug-interactions:latest 073619244051.dkr.ecr.us-west-1.amazonaws.com/drug-interactions:latest
       - docker push 073619244051.dkr.ecr.us-west-1.amazonaws.com/drug-interactions:latest
       # update lambda function with new docker image
-      # aws lambda update-function-code --function-name dawiny --image-uri 073619244051.dkr.ecr.us-west-1.amazonaws.com/dawiny:latest
+      - aws lambda update-function-code --function-name drug-interactions --image-uri 073619244051.dkr.ecr.us-west-1.amazonaws.com/drug-interactions:latest

@@ -34,8 +34,6 @@ async def drug_interactions(drugs: dict):
 
 @app.post("/image-extract")
 async def upload_and_process_image(image: UploadFile = File(...)):
-    # Process the uploaded image
-    api_key = "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"
     image_bytes = await image.read()
 
     # Convert binary image data to base64
@@ -69,7 +67,7 @@ async def upload_and_process_image(image: UploadFile = File(...)):
     }
     headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}"
+            "Authorization": f"Bearer {os.environ.get('OPENAI_API_KEY')}"
         }
 
     try:

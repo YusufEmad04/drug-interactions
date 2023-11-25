@@ -35,23 +35,25 @@ async def drug_interactions(drugs: dict):
 @app.post("/image-extract")
 async def upload_and_process_image(image: UploadFile = File(...)):
     image_bytes = await image.read()
+    print("read image")
 
     # Convert binary image data to base64
     base64_rotated_image = base64.b64encode(image_bytes).decode('utf-8')
+    print("converted to base64")
 
     # You can now use base64_rotated_image for further processing or sending to the OpenAI API
     payload = {
         "model": "gpt-4-vision-preview",
         "messages": [
-            # {
-            #     "role": "system",
-            #     "content": [
-            #         {
-            #             "type": "text",
-            #             "text": "You will take a medicine box image from the user, and you will extract the text and the colors from the image and you will describe the medicine and how to use it.\nYour response should be a json.\n RESPOND ONLY WITH JSON WITHOUT ANY OTHER TEXT."
-            #         }
-            #     ]
-            # },
+            {
+                "role": "system",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "You will take a medicine box image from the user, and you will extract the text and the colors from the image and you will describe the medicine and how to use it.\nYour response should be a json.\n RESPOND ONLY WITH JSON WITHOUT ANY OTHER TEXT."
+                    }
+                ]
+            },
             {
                 "role": "user",
                 "content": [
@@ -75,8 +77,11 @@ async def upload_and_process_image(image: UploadFile = File(...)):
             "Authorization": f"Bearer {os.environ.get('OPENAI_API_KEY')}"
         }
 
+    print("sending request to openai")
+
     try:
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+        print("got response from openai")
 
         if response.status_code != 200:
             raise HTTPException(status_code=400, detail="error")
@@ -84,9 +89,10 @@ async def upload_and_process_image(image: UploadFile = File(...)):
         response = response.json()
 
         if "choices" not in response:
-            raise HTTPException(status_code=400, detail="error")
+            raise HTTPException(status_code=400, detail="error in response")
 
-        response = response["choices"][0]["text"]
+        response = response["choices"][0]["message"]["content"]
+        print("got response from openai with text")
 
         return response
     except:

@@ -71,9 +71,23 @@ async def upload_and_process_image(image: UploadFile = File(...)):
             "Content-Type": "application/json",
             "Authorization": f"Bearer {api_key}"
         }
-    response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-    content = response.json()['choices'][0]['message']['content']
 
-    return content
+    try:
+        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+
+        if response.status_code != 200:
+            raise HTTPException(status_code=400, detail="error")
+
+        response = response.json()
+
+        if "choices" not in response:
+            raise HTTPException(status_code=400, detail="error")
+
+        response = response["choices"][0]["text"]
+
+        return response
+    except:
+        raise HTTPException(status_code=400, detail="error")
+
 
 uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", "8080")))

@@ -3,6 +3,7 @@ import base64
 import os
 import uvicorn
 from drug_interactions import *
+import json
 
 app = FastAPI()
 
@@ -92,9 +93,17 @@ async def upload_and_process_image(image: UploadFile = File(...)):
             raise HTTPException(status_code=400, detail="error in response")
 
         response = response["choices"][0]["message"]["content"]
+
+        first_curly = response.find("{")
+        last_curly = response.rfind("}")
+
+        response = response[first_curly:last_curly+1]
+
         print("got response from openai with text")
 
-        return response
+        json_response = json.loads(response)
+
+        return json_response
     except:
         raise HTTPException(status_code=400, detail="error")
 

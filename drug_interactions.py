@@ -5,6 +5,8 @@ def get_ids(drugs):
     for i, d in enumerate(drugs):
         # replace space with +
         drugs[i] = drugs[i].replace(" ", "+")
+        # remove any characters after the brackets
+        drugs[i] = drugs[i].split("(")[0]
 
     url = "https://rxnav.nlm.nih.gov/REST/rxcui.json?name={name}&search=0"
 

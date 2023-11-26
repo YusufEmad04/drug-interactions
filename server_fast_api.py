@@ -51,7 +51,7 @@ async def upload_and_process_image(image: UploadFile = File(...)):
                 "content": [
                     {
                         "type": "text",
-                        "text": "You will take a medicine box image from the user, and you will extract the text and the colors from the image and you will describe the medicine and how to use it.\nYour response should be a json.\n RESPOND ONLY WITH JSON WITHOUT ANY OTHER TEXT.\n { 'text': 'text here', 'colors': ['colors here'], 'description': 'description here' }"
+                        "text": "You will take a medicine box image from the user, and you will extract the text and the colors in hex from the image and you will describe the medicine and how to use it.\nYour response should be a json.\n RESPOND ONLY WITH JSON WITHOUT ANY OTHER TEXT.\n { 'text': 'text here', 'colors': ['colors in hex here #FFFFFF'], 'description': 'description here' }"
                     }
                 ]
             },
@@ -60,7 +60,7 @@ async def upload_and_process_image(image: UploadFile = File(...)):
                 "content": [
                     {
                         "type": "text",
-                        "text": "the image I provided is a picture of a medicine box respond with json with key 'text' text is any text visible inside the image and key colors is any colors visible in the image, and a key description with any description of the medicine and how to use. like this {'text': 'text here', 'colors': ['colors', 'here'], 'description': 'description here'}.\nONLY RESPOND WITH JSON WITHOUT ANY OTHER TEXT."
+                        "text": "the image I provided is a picture of a medicine box respond with json with key 'text' text is any text visible inside the image and key colors is any colors in hex visible in the image, and a key description with any description of the medicine and how to use. like this {'text': 'text here', 'colors': ['colors', 'here', '#FFFFFF'], 'description': 'description here'}.\nONLY RESPOND WITH JSON WITHOUT ANY OTHER TEXT."
                     },
                     {
                         "type": "image_url",
